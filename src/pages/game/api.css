@@ -552,7 +552,7 @@ body {
 	position: absolute;
 	top: 0;
 	left: 0;
-	overflow: visible;
+	overflow: hidden;
 	color: #df0020;
 	z-index: 1000;
 	display: none;
