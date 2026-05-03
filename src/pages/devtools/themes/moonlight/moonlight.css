@@ -3276,6 +3276,9 @@ ABYSS FLEET
 	height:18px;
 	line-height:18px;
 	padding-left:2px;
+	display:flex;
+	align-items:center;
+	box-sizing:border-box;
 }
 .v .quest {
 	height:27px;
@@ -3294,7 +3297,7 @@ ABYSS FLEET
 	height:14px;
 	margin:2px 2px 0px 0px;
 	background:#555;
-	float:left;
+	flex:0 0 14px;
 	line-height:normal;
 	text-align:center;
 }
@@ -3302,6 +3305,7 @@ ABYSS FLEET
 	margin:2px 0px 0px 2px;
 	width:11px;
 	height:11px;
+	flex-basis:11px;
 }
 .quest.complete .quest_color {
 	width:14px;
@@ -3309,7 +3313,7 @@ ABYSS FLEET
 	margin:2px 2px 0px 0px;
 	font-size:11px;
 	background:#555;
-	float:left;
+	flex-basis:14px;
 	line-height:normal;
 	text-align:center;
 	border:3px outset #999;
@@ -3325,31 +3329,30 @@ ABYSS FLEET
 }
 
 .quest_text {
-	width:110px;
+	flex:1 1 auto;
+	min-width:0;
 	height:16px;
 	margin:1px 1px;
-	float:left;
 	line-height:16px;
 	font-size:11px;
 	white-space:nowrap;
 	overflow:hidden;
 	text-overflow: ellipsis;
 	color:#cdd;
-	position:relative;
-	left:0px;
 }
 .v .module.quests .quest_text {
-	white-space:normal;
-	height:26px;
-	line-height:13px;
-	max-height:30px;
-	word-wrap: break-word;
-	margin:2px 1px 1px 1px;
-	border-bottom: 1px solid #779;
-	position:absolute;
-	left:15px;
+	white-space:nowrap;
+	height:16px;
+	line-height:16px;
+	max-height:none;
+	word-wrap:normal;
+	margin:1px 1px;
+	border-bottom:none;
+	position:static;
+	left:auto;
 }
 .quest_track {
+	flex:0 0 36px;
 	width:36px;
 	height:14px;
 	background:rgba(70,70,90,0.8);
@@ -3358,16 +3361,15 @@ ABYSS FLEET
 	text-align:center;
 	color:#eee;
 	overflow:hidden;
-	position:relative;
-	top:2px;
-	left:2px;
+	position:static;
+	margin:0 0 0 2px;
 }
 .v .quest_track {
 	width:34px;
 	height:13px;
 	line-height:13px;
-	top:7px;
-	left:100px;
+	flex-basis:34px;
+	margin:0 0 0 2px;
 }
 .untracked .quest_track {
 	display:none;
@@ -6366,10 +6368,10 @@ ABYSS FLEET
 	width:190px;
 }
 .h .module.quests .quest_text {
-	width:130px;
+	width:auto;
 }
 .h .module.quests .untracked .quest_text {
-	width:170px;
+	width:auto;
 }
 .h .module.quests2 {
 	display:none;
@@ -6486,10 +6488,10 @@ ABYSS FLEET
 	width:151px;
 }
 .v .module.quests .quest_text {
-	width:96px;
+	width:auto;
 }
 .v .module.quests .untracked .quest_text {
-	width:131px;
+	width:auto;
 }
 .v .module.quests2 {
 	display:none;
@@ -6616,10 +6618,10 @@ ABYSS FLEET
 	width:179px;
 }
 .t .module.quests .quest_text {
-	width:119px;
+	width:auto;
 }
 .t .module.quests .untracked .quest_text {
-	width:159px;
+	width:auto;
 }
 .t .module.controls {
 	width:30px;
