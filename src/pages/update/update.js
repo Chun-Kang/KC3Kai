@@ -4,17 +4,16 @@
 
 	var customReleases = [
 		{
-			title: "Release 36.0.0",
+			title: "Release 36.0.1",
 			html_url: "https://github.com/Chun-Kang/KC3Kai",
 			body: [
-				"Unofficial MV3 maintenance release for this fork.",
+				"Unofficial maintenance release for this fork.",
 				"",
 				"### Highlights",
 				"",
-				"* Migrated the extension runtime from Manifest V2 to Manifest V3",
-				"* Added a service worker + offscreen document background compatibility layer",
-				"* Replaced remote script dependencies that are blocked by MV3 CSP",
-				"* Added fork notices and multilingual notes in README"
+				"* Restored the translations repository dependency so language data stays external and manageable upstream",
+				"* Backfilled map node metadata for the latest event maps so node labels can be resolved again",
+				"* Kept the MV3 compatibility fixes and release packaging changes from the fork"
 			].join("\n"),
 			merged_at: "2026-05-03T15:00:00Z",
 			number: 10000,
