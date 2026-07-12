@@ -7,13 +7,12 @@
 			title: "Release 36.0.1",
 			html_url: "https://github.com/Chun-Kang/KC3Kai",
 			body: [
-				"Unofficial maintenance release for this fork.",
+				"Unofficial 36.0.1 release for this fork.",
 				"",
 				"### Highlights",
 				"",
-				"* Restored the translations repository dependency so language data stays external and manageable upstream",
-				"* Backfilled map node metadata for the latest event maps so node labels can be resolved again",
-				"* Kept the MV3 compatibility fixes and release packaging changes from the fork"
+				"* Backfilled map node metadata for the latest event maps so node labels display correctly",
+				"* Bumped the extension and release metadata to 36.0.1"
 			].join("\n"),
 			merged_at: "2026-05-03T15:00:00Z",
 			number: 10000,
