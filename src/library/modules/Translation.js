@@ -187,10 +187,11 @@
 			if(extendEnglish && language!=="en"){
 				// Load english file
 				try {
-					enJSON = JSON.parse($.ajax({
+					jsonText = $.ajax({
 						url : repo+'lang/data/en/' + filename + '.json',
 						async: false
-					}).responseText);
+					}).responseText || "{}";
+					enJSON = JSON.parse(jsonText);
 
 					if (track_source) {
 						this.addTags(enJSON, "en");
@@ -222,7 +223,7 @@
 				jsonText = $.ajax({
 					url : repo+'lang/data/' +language+ '/' + filename + '.json',
 					async: false
-				}).responseText;
+				}).responseText || "{}";
 				translation = JSON.parse(jsonText);
 				if (track_source) {
 					this.addTags(translation, language);
@@ -529,14 +530,15 @@
 			// Use English version quotes as the base by default,
 			// assuming all quotes are complete so there
 			// is no need to extend the table by considering pre-remodel ship quotes.
-			var enJSON = {};
+			var enJSON = {}, jsonText;
 			const isGetEnglish = language === "en";
 			if(isGetEnglish || extendEnglish) {
 				try {
-					enJSON = JSON.parse($.ajax({
+					jsonText = $.ajax({
 						url : repo+'lang/data/en/quotes.json',
 						async: false
-					}).responseText);
+					}).responseText || "{}";
+					enJSON = JSON.parse(jsonText);
 					this.transformQuotes(enJSON, "en", checkKey && isGetEnglish,
 						// remove seasonal extending for these languages
 						["jp", "scn", "kr"].indexOf(language) > -1);
@@ -561,10 +563,11 @@
 			} else {
 				// load language specific quotes.json
 				try {
-					langJSON = JSON.parse($.ajax({
+					jsonText = $.ajax({
 						url : repo+'lang/data/' +language+ '/quotes.json',
 						async: false
-					}).responseText);
+					}).responseText || "{}";
+					langJSON = JSON.parse(jsonText);
 				} catch (e) {
 					if (e instanceof SyntaxError){
 						console.warn("Loading quotes failed", language, e);/*RemoveLogging:skip*/

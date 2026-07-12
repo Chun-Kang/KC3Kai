@@ -339,6 +339,20 @@ Provides access to data on built-in JSON files
 			this._edges      = JSON.parse( $.ajax(repo+'edges.json', { async: false }).responseText );
 			this._edgesOld   = JSON.parse( $.ajax(repo+'edges_p1.json', { async: false }).responseText );
 			this._nodes      = JSON.parse( $.ajax(repo+'nodes.json', { async: false }).responseText );
+			// Event-specific KCNav backfill data, merged on top of the base tables.
+			// Keep this optional so a missing backfill file won't stop KC3Kai from loading.
+			const loadOptionalJson = (file) => {
+				try {
+					return JSON.parse( $.ajax(repo + file, { async: false }).responseText );
+				} catch (error) {
+					console.warn("Optional meta data missing:", file, error);
+					return null;
+				}
+			};
+			const edgesEvent62 = loadOptionalJson('edges_event62.json');
+			const nodesEvent62 = loadOptionalJson('nodes_event62.json');
+			if (edgesEvent62) Object.assign(this._edges, edgesEvent62);
+			if (nodesEvent62) Object.assign(this._nodes, nodesEvent62);
 			this._gunfit     = JSON.parse( $.ajax(repo+'gunfit.json', { async: false }).responseText );
 			// fud: Frequently updated data. rarely & randomly updated on maintenance weekly in fact
 			this._dataColle  = JSON.parse( $.ajax(repo+'fud_weekly.json', { async: false }).responseText );
@@ -358,7 +372,7 @@ Provides access to data on built-in JSON files
 			this._servers   = KC3Translation.getJSON(repo, 'servers', true);
 			this._battle    = KC3Translation.getJSON(repo, 'battle', true);
 			// troll language always loaded
-			this._terms.troll = JSON.parse( $.ajax(repo+'lang/data/troll/terms.json', { async: false }).responseText );
+			this._terms.troll = JSON.parse( $.ajax(repo+'lang/data/troll/terms.json', { async: false }).responseText || "{}" );
 			// other language loaded here
 			this._terms.lang = KC3Translation.getJSON(repo, 'terms', true);
 			// only load terms for Strategy Room on demand
