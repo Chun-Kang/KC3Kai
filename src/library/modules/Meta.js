@@ -1530,6 +1530,13 @@ Provides access to data on built-in JSON files
 			worldId = Number(worldId);
 			var worldTerm = "Unknown";
 			if(this.isEventWorld(worldId)) {
+				// Allow explicit event title overrides for special event worlds.
+				const eventWorldTitleOverrides = {
+					62: "2026夏 反撃！第三十一戦隊の戦い",
+				};
+				if (!returnTerm && eventWorldTitleOverrides[worldId]) {
+					return eventWorldTitleOverrides[worldId];
+				}
 				const eventMapDefs = {
 						seasons : ["Winter", "Spring", "Summer", "Fall"],
 						fromId : 21,

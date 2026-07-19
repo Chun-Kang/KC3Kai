@@ -4,15 +4,16 @@
 
 	var customReleases = [
 		{
-			title: "Release 36.0.1",
+			title: "Release 36.0.2",
 			html_url: "https://github.com/Chun-Kang/KC3Kai",
 			body: [
-				"Unofficial 36.0.1 release for this fork.",
+				"Unofficial 36.0.2 release for this fork.",
 				"",
 				"### Highlights",
 				"",
-				"* Backfilled map node metadata for the latest event maps so node labels display correctly",
-				"* Bumped the extension and release metadata to 36.0.1"
+				"* Backfilled KCNav map node metadata for event 62 maps 4 and 5",
+				"* Added a custom activity-world label for the 2026 summer event title",
+				"* Bumped the extension and release metadata to 36.0.2"
 			].join("\n"),
 			merged_at: "2026-05-03T15:00:00Z",
 			number: 10000,
