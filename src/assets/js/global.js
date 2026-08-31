@@ -3,7 +3,9 @@
 \*******************************/
 /* GOOGLE ANALYTICS
 -------------------------------*/
-if (!window.NO_GA) {
+// MV3 extension pages and content scripts cannot load the remote GA script.
+var isChromeExtensionContext = typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id;
+if (!window.NO_GA && !isChromeExtensionContext) {
 	var _gaq = _gaq || [];
 	_gaq.push(['_setAccount', 'UA-9789944-12']);
 	(function() {

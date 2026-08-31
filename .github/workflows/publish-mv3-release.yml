@@ -1,0 +1,83 @@
+name: Publish MV3 release from update branch
+
+on:
+  push:
+    branches:
+      - update-to-mv3
+    # Workflow/configuration-only commits do not change the extension package.
+    # This also prevents this setup change from publishing a Release.
+    paths-ignore:
+      - ".github/**"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kc3kai-mv3-release
+  cancel-in-progress: false
+
+env:
+  TARGET_BRANCH: update-to-mv3
+  RELEASE_TAG: Manifest-V3-Update
+
+jobs:
+  publish:
+    name: Build and publish MV3 release
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      - name: Check out pushed MV3 commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+          submodules: recursive
+          token: ${{ secrets.GH_API_KEY || secrets.KC3KAI_SYNC_TOKEN || github.token }}
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16.x
+
+      - name: Install JavaScript dependencies
+        run: |
+          npm install -g grunt-cli@1.3.0
+          npm install --no-audit --no-fund
+          if ! grep -q 'harmony-v2.8.22' node_modules/grunt-contrib-uglify/package.json; then
+            patch -N -d node_modules/grunt-contrib-uglify -p2 < misc/uglify-harmony.patch
+            npm install --no-audit --no-fund
+          fi
+
+      - name: Run unit and source tests
+        run: npm test
+
+      - name: Build MV3 release directory
+        run: |
+          grunt build
+          test "$(jq -r '.manifest_version' build/release/manifest.json)" = "3"
+          test "$(find build/release/data/lang/data -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')" -ge 19
+
+      - name: Package release archive
+        run: |
+          grunt compress:release
+          unzip -tq build/release.zip
+
+      - name: Save build and Chrome diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kc3kai-mv3-release-${{ github.sha }}
+          path: |
+            build/release.zip
+          if-no-files-found: ignore
+          retention-days: 14
+
+      - name: Publish stable MV3 Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_API_KEY || secrets.KC3KAI_SYNC_TOKEN || github.token }}
+          TARGET_SHA: ${{ github.sha }}
+          RELEASE_ASSET: build/release.zip
+          RELEASE_FALLBACK_TITLE: Manifest V3 Update - Personal Testing Release
+          RELEASE_FALLBACK_NOTES: .github/release-notes.md
+        run: .github/scripts/publish_release.sh

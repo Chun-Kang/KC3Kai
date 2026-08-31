@@ -1,6 +1,7 @@
 // Check if we are on KC3改 frame to override DMM style to apply customizations
 (new RMsg("service", "dmmFrameInject", {}, function(response){
 	console.debug("DMM site inject response", response);
+	if (!response || !response.mode) return;
 	var intervalChecker;
 	function checkLoading() {
 		console.debug("Checking game frame...");

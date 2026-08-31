@@ -1,17 +1,21 @@
 {
-	"manifest_version": 2,
+	"manifest_version": 3,
 	"name": "KC3改 Development",
 	"short_name": "KC3改",
 	"description": "Kantai Collection Game Viewer and Helper",
 	"version": "35.8.2",
+	"minimum_chrome_version": "109",
 	"devtools_page": "pages/devtools/init.html",
-	"options_page": "pages/settings/settings.html",
+	"options_ui": {
+		"page": "pages/settings/settings.html",
+		"open_in_tab": true
+	},
 	"icons": {
 		"16": "assets/img/logo/16.png",
 		"48": "assets/img/logo/48.png",
 		"128": "assets/img/logo/128.png"
 	},
-	"browser_action": {
+	"action": {
 		"default_icon": "assets/img/logo/dev.png",
 		"default_popup": "pages/popup/popup.html"
 	},
@@ -19,52 +23,42 @@
 		"unlimitedStorage",
 		"storage",
 		"downloads",
-		"downloads.shelf",
 		"tabs",
 		"notifications",
 		"cookies",
 		"activeTab",
-		"webRequest",
-		"webRequestBlocking",
+		"offscreen",
+		"declarativeNetRequest",
+		"declarativeNetRequestWithHostAccess",
+		"scripting",
+		"alarms",
+		"contextMenus",
+		"downloads.open",
+		"downloads.ui",
+		"webNavigation"
+	],
+	"host_permissions": [
 		"file:///*",
-		"*://*.dmm.com/*",
-		"*://*.kancolle-server.com/*",
-		"*://203.104.209.7/*"
+		"<all_urls>"
 	],
 	"background": {
-		"scripts": [
-			"assets/js/global.js",
-			"assets/js/jquery.min.js",
-			"assets/js/dexie.min.js",
-			"library/objects/Messengers.js",
-			"library/objects/Quest.js",
-			"library/objects/Screenshot.js",
-			"library/managers/ConfigManager.js",
-			"library/managers/QuestManager.js",
-			"library/modules/ChromeSync.js",
-			"library/modules/QuestSync/Background.js",
-			"library/modules/QuestSync/Sync.js",
-			"library/modules/Database.js",
-			"library/modules/Log/Log.js",
-			"library/modules/Log/Background.js",
-			"library/modules/ImageExport.js",
-			"library/modules/Master.js",
-			"library/modules/RemodelDb.js",
-			"library/modules/Meta.js",
-			"library/modules/Translation.js",
-			"library/modules/Service.js"
-		],
-		"persistent": true
+		"service_worker": "service-worker.js"
 	},
 	"content_scripts": [
 		{
-			"matches": ["*://*.dmm.com/*"],
-			"js": ["library/injections/cookie.js"],
+			"matches": [
+				"*://*.dmm.com/*"
+			],
+			"js": [
+				"library/injections/cookie.js"
+			],
 			"run_at": "document_end",
 			"all_frames": true
 		},
 		{
-			"matches": ["*://*.dmm.com/*"],
+			"matches": [
+				"*://*.dmm.com/*"
+			],
 			"include_globs": [
 				"*://www.dmm.com/netgame/*/app_id=854854*",
 				"*://play.games.dmm.com/game/kancolle*"
@@ -96,7 +90,9 @@
 			"all_frames": true
 		},
 		{
-			"matches": ["*://osapi.dmm.com/gadgets/*aid=854854*"],
+			"matches": [
+				"*://osapi.dmm.com/gadgets/*aid=854854*"
+			],
 			"js": [
 				"assets/js/jquery.min.js",
 				"library/objects/Messengers.js",
@@ -106,7 +102,9 @@
 			"all_frames": true
 		},
 		{
-			"matches": ["*://*/kcs2/index.php?api_root=/kcsapi*"],
+			"matches": [
+				"*://*/kcs2/index.php?api_root=/kcsapi*"
+			],
 			"include_globs": [
 				"*://*.kancolle-server.com/*",
 				"*://203.104.209.*/*",
@@ -124,11 +122,20 @@
 			"all_frames": true
 		}
 	],
-	"content_security_policy": "script-src 'self' https://ssl.google-analytics.com https://cdnjs.cloudflare.com 'unsafe-eval'; object-src 'self'",
+	"content_security_policy": {
+		"extension_pages": "script-src 'self'; object-src 'self';"
+	},
 	"web_accessible_resources": [
-		"assets/img/*",
-		"library/injections/dmm_injectable.js",
-		"library/injections/axios_injectable.js",
-		"library/injections/kcs2_injectable.js"
+		{
+			"resources": [
+				"assets/img/*",
+				"library/injections/dmm_injectable.js",
+				"library/injections/axios_injectable.js",
+				"library/injections/kcs2_injectable.js"
+			],
+			"matches": [
+				"<all_urls>"
+			]
+		}
 	]
 }
