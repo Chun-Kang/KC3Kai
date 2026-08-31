@@ -634,13 +634,16 @@ See Manifest File [manifest.json] under "background" > "scripts"
 	chrome.runtime.onMessage.addListener(function(request, sender, callback){
 		// Check if message is intended for this script
 		if( (request.identifier || false) == "kc3_service"){
+			// MV3 forwards content-script messages through the service worker.
+			// Restore the original sender so handlers can still access tab details.
+			var requestSender = request.__kc3Sender || sender;
 			// Log message contents and sender for debugging
 			//console.debug(request.action, { "Request": request, "Sender": sender });
 			
 			// Check requested action is supported
 			if(typeof window.KC3Service[ request.action ] != "undefined"){
 				// Execute and pass callback to function
-				window.KC3Service[ request.action ](request, sender, callback);
+				window.KC3Service[ request.action ](request, requestSender, callback);
 				return true; // dual-async response
 			}else{
 				// Unknown action
